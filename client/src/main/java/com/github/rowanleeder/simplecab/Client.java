@@ -8,7 +8,6 @@ import net.sourceforge.argparse4j.inf.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 public class Client {
@@ -32,41 +31,41 @@ public class Client {
     protected ArgumentParser spec() {
         ArgumentParser parser = ArgumentParsers.newFor("SimpleCab").build()
                 .defaultHelp(true)
-                .description("Cli for SimpleCab");
+                .description("Cli for SimpleCab.");
 
         parser.addArgument("--host")
                 .nargs("?")
                 .type(String.class)
                 .setDefault("http://localhost:8080")
-                .help("SimpleCab host");
+                .help("The SimpleCab host.");
 
         final Subparsers subparsers = parser.addSubparsers()
                 .dest("command")
                 .title("Commands");
 
         Subparser count = subparsers.addParser("counts")
-                .help("Fetch cab trip counts");
+                .help("Fetch cab trip counts.");
 
         count.addArgument("--ignore-cache")
                 .action(Arguments.storeConst())
                 .setConst(true)
                 .type(Boolean.class)
                 .setDefault(false)
-                .help("Tell the host to ignore the count cache");
+                .help("Tell the host to ignore the count cache.");
 
         count.addArgument("date")
                 .required(true)
-                .help("The date")
+                .help("Date filter. Only count trips that were commenced on this date. YYYY-MM-DD format.")
                 .type(String.class);
 
         count.addArgument("medallions")
                 .required(true)
-                .help("The cab medallion ids")
+                .help("The cab medallion ids.")
                 .type(String.class)
                 .nargs("+");
 
         Subparser clear = subparsers.addParser("clear-cache")
-                .help("Tell the host to clear its count cache");
+                .help("Tell the host to clear its count cache.");
 
         return parser;
     }
